@@ -1,8 +1,9 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import Footer from "@/components/Footer";
 import ProductSection, {
   ProductGrid,
 } from "@/components/ProductSection";
@@ -189,7 +190,7 @@ export default function HomePage() {
     .slice(0, 6);
 
   return (
-    <main className="min-h-screen bg-[#f0f5f0]">
+    <main className="min-h-screen bg-[#f0f5f0] pb-16">
       <Navbar />
       <Hero />
 
@@ -246,12 +247,7 @@ export default function HomePage() {
         )}
       </div>
 
-      <footer className="border-t border-[#e2ebe4] bg-[#fbfdfb]">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 text-xs text-gray-500 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p className="font-bold text-[#078542]">🛒 বাজার দর</p>
-          <p>সঠিক তথ্য জানুন, বাজার করুন পরিকল্পনা করে।</p>
-        </div>
-      </footer>
+      <Footer />
     </main>
   );
 }

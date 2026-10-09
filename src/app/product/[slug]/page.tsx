@@ -1,4 +1,5 @@
-﻿import { notFound } from "next/navigation";
+export const instant = false;
+import { notFound } from "next/navigation";
 import ProductDetailsClient from "./ProductDetailsClient";
 
 const API_BASES = [

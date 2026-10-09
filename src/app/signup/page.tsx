@@ -1,9 +1,10 @@
-﻿
+
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 export default function SignupPage() {
   const [name, setName] = useState("");
@@ -34,14 +35,17 @@ export default function SignupPage() {
 
       if (error) {
         setError(error.message ?? "Sign up failed. Please try again.");
+        toast.error(error.message ?? "অ্যাকাউন্ট তৈরি করা যায়নি। আবার চেষ্টা করুন।");
         return;
       }
 
       if (data) {
-        window.location.href = "/";
+        toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে");
+        window.setTimeout(() => { window.location.href = "/"; }, 700);
       }
     } catch {
       setError("Signup failed. Please try again.");
+      toast.error("অ্যাকাউন্ট তৈরি করা যায়নি। আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }

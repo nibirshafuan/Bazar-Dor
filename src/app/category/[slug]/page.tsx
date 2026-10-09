@@ -1,4 +1,5 @@
-﻿import { notFound } from "next/navigation";
+export const instant = false;
+import { notFound } from "next/navigation";
 import CategoryClient from "./CategoryClient";
 
 const API_BASES = [

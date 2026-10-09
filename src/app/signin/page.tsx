@@ -1,9 +1,10 @@
-﻿
+
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -33,14 +34,17 @@ export default function LoginPage() {
 
       if (error) {
         setError(error.message ?? "Sign in failed. Please try again.");
+        toast.error(error.message ?? "সাইন ইন করা যায়নি। আবার চেষ্টা করুন।");
         return;
       }
 
       if (data) {
-        window.location.href = "/";
+        toast.success("সফলভাবে সাইন ইন হয়েছে");
+        window.setTimeout(() => { window.location.href = "/"; }, 700);
       }
     } catch {
       setError("Sign in failed. Please try again.");
+      toast.error("সাইন ইন করা যায়নি। আবার চেষ্টা করুন।");
     } finally {
       setLoading(false);
     }

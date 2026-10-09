@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import ProductCard, { type Product } from "@/components/ProductCard";
+import { formatBengaliNumber } from "@/lib/formatters";
 
 const API_BASES = [
   "https://api.api-store.workers.dev/api/bazardor",
@@ -303,7 +304,7 @@ function CategoryPageContent() {
 
             <div className="mt-6 flex items-center justify-between border-b border-[#dfe9e0] pb-3">
               <p className="text-sm text-gray-500">
-                মোট {new Intl.NumberFormat("bn-BD").format(sortedProducts.length)}টি পণ্য
+                মোট {formatBengaliNumber(sortedProducts.length)}টি পণ্য
               </p>
               {sort !== "default" && (
                 <button
@@ -323,17 +324,6 @@ function CategoryPageContent() {
           </>
         )}
       </main>
-
-      <footer className="mt-12 border-t border-[#e1eae2] bg-white">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-6 text-sm text-gray-500 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <p className="font-bold text-[#078542]">
-            বাজার দর — প্রয়োজনীয় পণ্যের দাম এক নজরে।
-          </p>
-          <p>
-            সকল দাম সম্ভাব্য; বাজার অবস্থার ওপর নির্ভর করে পরিবর্তিত হয়।
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
@@ -352,3 +342,4 @@ export default function CategoryPage() {
     </Suspense>
   );
 }
+

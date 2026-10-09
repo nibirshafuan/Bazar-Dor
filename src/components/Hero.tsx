@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useRef, useState, type MouseEvent } from "react";
 
@@ -19,8 +19,8 @@ export default function Hero() {
     e.preventDefault();
 
     const target =
-      document.getElementById("all-products") ??
       document.getElementById("সব-পণ্য") ??
+      document.getElementById("all-products") ??
       sectionRef.current?.nextElementSibling;
 
     target?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -35,7 +35,7 @@ export default function Hero() {
               date ? "" : "invisible"
             }`}
           >
-            {date || "শুক্রবার, ৯ অক্টোবর, ২০২৬"}
+            {date || "বাংলাদেশের বাজারদর"}
           </p>
 
           <h1 className="mt-3 text-2xl font-bold leading-tight text-[#26352a] sm:text-[30px]">
@@ -43,12 +43,11 @@ export default function Hero() {
           </h1>
 
           <p className="mt-3 max-w-xl text-xs leading-5 text-gray-500 sm:text-sm sm:leading-5">
-            চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম — বাজারভিত্তিক
-            বিস্তারিত, গড়, সর্বনিম্ন-সর্বাধিক এবং দামের পরিবর্তন এক জায়গায়।
+            চাল, ডাল, তেল, সবজি, মাছ, মাংস, ডিম ও মসলার দাম—বাজার পরিস্থিতি বিস্তারিত, গড়, সর্বনিম্ন-সর্বোচ্চ এবং দামের পরিবর্তন এক জায়গায়।
           </p>
 
           <a
-            href="#all-products"
+            href="#সব-পণ্য"
             onClick={handleScroll}
             className="mt-4 inline-flex items-center rounded-md bg-[#078542] px-4 py-2.5 text-xs font-bold text-white shadow-sm transition hover:bg-[#066e37]"
           >
@@ -80,7 +79,6 @@ export default function Hero() {
             <ellipse cx="45" cy="104" rx="5" ry="7" fill="#c98cf5" opacity="0.7" />
 
             <ellipse cx="121" cy="99" rx="23" ry="19" fill="#ff7a1a" />
-
             <ellipse cx="196" cy="103" rx="25" ry="22" fill="#f7a712" />
             <path d="M200 83 C198 70 206 64 214 64" fill="none" stroke="#078542" strokeWidth="3" strokeLinecap="round" />
 

@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { authClient } from "@/lib/auth-client";
+import { toast } from "sonner";
+import { formatBengaliNumber, formatBengaliPrice, formatBengaliPercentage } from "@/lib/formatters";
 
 type Category = {
   slug: string;
@@ -32,23 +35,20 @@ const API_URLS = [
 const defaultCategories: Category[] = [
   { slug: "chal", name: "চাল", emoji: "🍚" },
   { slug: "dal", name: "ডাল", emoji: "🫘" },
-  { slug: "tel", name: "তেল", emoji: "🛢️" },
+  { slug: "tel", name: "তেল", emoji: "🫗" },
   { slug: "sobji", name: "সবজি", emoji: "🥬" },
   { slug: "mach", name: "মাছ", emoji: "🐟" },
   { slug: "mangsho", name: "মাংস", emoji: "🍗" },
-  { slug: "dim-dui", name: "ডিম-দুধ", emoji: "🥛" },
+  { slug: "dim-dui", name: "ডিম-দুধ", emoji: "🥚" },
   { slug: "mosla", name: "মসলা", emoji: "🌶️" },
 ];
 
 const fallbackTicker: TickerProduct[] = [
   { id: "rice", slug: "sorno-machi-chal", name: "চাল", price: 148, unit: "কেজি", change: 2.1, emoji: "🍚" },
   { id: "dal", slug: "mosur-dal", name: "ডাল", price: 120, unit: "কেজি", change: -1.5, emoji: "🫘" },
-  { id: "oil", slug: "soyabean-tel", name: "সয়াবিন তেল", price: 175, unit: "লিটার", change: 0.8, emoji: "🛢️" },
+  { id: "oil", slug: "soyabean-tel", name: "সয়াবিন তেল", price: 175, unit: "লিটার", change: 0.8, emoji: "🫗" },
   { id: "fish", slug: "rui-mach", name: "রুই মাছ", price: 320, unit: "কেজি", change: 0, emoji: "🐟" },
 ];
-
-const bnNumber = (value: number) =>
-  new Intl.NumberFormat("bn-BD", { maximumFractionDigits: 1 }).format(value);
 
 function normalizeProducts(data: unknown): TickerProduct[] {
   const items = Array.isArray(data)
@@ -98,9 +98,11 @@ function normalizeProducts(data: unknown): TickerProduct[] {
 }
 
 export default function Navbar({ categories = defaultCategories }: NavbarProps) {
+  const { data: session } = authClient.useSession();
   const pathname = usePathname();
   const [date, setDate] = useState("");
   const [tickerProducts, setTickerProducts] = useState<TickerProduct[]>(fallbackTicker);
+  const [userMenuOpen, setUserMenuOpen] = useState(false);
 
   useEffect(() => {
     setDate(
@@ -162,19 +164,86 @@ export default function Navbar({ categories = defaultCategories }: NavbarProps) 
           </span>
         </Link>
 
-        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
-          <Link
-            href="/signin"
-            className="rounded-lg px-2 py-2 text-xs font-bold text-[#26352a] transition hover:bg-gray-100 sm:px-3 sm:text-sm"
-          >
-            সাইন ইন
-          </Link>
-          <Link
-            href="/signup"
-            className="rounded-lg bg-[#078542] px-2 py-2 text-xs font-bold text-white transition hover:bg-[#066e37] sm:px-3 sm:text-sm"
-          >
-            সাইন আপ
-          </Link>
+        <div className="relative flex shrink-0 items-center gap-1 sm:gap-2">
+          {session?.user ? (
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setUserMenuOpen((open) => !open)}
+                aria-expanded={userMenuOpen}
+                aria-label="User menu"
+                className="flex max-w-40 items-center gap-2 rounded-lg px-2 py-1.5 transition hover:bg-[#f0f8f1]"
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#e0f2e5] text-sm font-bold text-[#078542]">
+                  {session.user.image ? (
+                    <img src={session.user.image} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    (session.user.name || session.user.email || "U").charAt(0).toUpperCase()
+                  )}
+                </span>
+                <span className="hidden min-w-0 text-left sm:block">
+                  <span className="block max-w-24 truncate text-xs font-bold text-[#26352a]">
+                    {session.user.name || "User"}
+                  </span>
+                  <span className="block text-[10px] text-gray-500">প্রোফাইল</span>
+                </span>
+              </button>
+
+              {userMenuOpen && (
+                <div className="absolute right-0 top-full z-[70] mt-2 w-60 rounded-xl border border-[#e2ebe4] bg-white p-3 shadow-xl">
+                  <p className="truncate text-sm font-bold text-[#26352a]">
+                    {session.user.name || "User"}
+                  </p>
+                  <p className="mt-1 truncate text-xs text-gray-500">
+                    {session.user.email}
+                  </p>
+                  <div className="my-3 border-t border-[#e2ebe4]" />
+                  <Link
+                    href="/profile"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="block rounded-lg px-3 py-2 text-sm font-semibold text-[#26352a] hover:bg-[#f0f8f1]"
+                  >
+                    আমার প্রোফাইল
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      try {
+                        const { error } = await authClient.signOut();
+                        if (error) {
+                          toast.error(error.message || "Sign out failed.");
+                          return;
+                        }
+                        setUserMenuOpen(false);
+                        toast.success("সফলভাবে সাইন আউট হয়েছে।");
+                        window.location.href = "/";
+                      } catch {
+                        toast.error("Sign out failed. Please try again.");
+                      }
+                    }}
+                    className="mt-1 w-full rounded-lg px-3 py-2 text-left text-sm font-semibold text-red-600 hover:bg-red-50"
+                  >
+                    সাইন আউট
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <>
+              <Link
+                href="/signin"
+                className="rounded-lg px-2 py-2 text-xs font-bold text-[#26352a] transition hover:bg-gray-100 sm:px-3 sm:text-sm"
+              >
+                সাইন ইন
+              </Link>
+              <Link
+                href="/signup"
+                className="rounded-lg bg-[#078542] px-2 py-2 text-xs font-bold text-white transition hover:bg-[#066e37] sm:px-3 sm:text-sm"
+              >
+                সাইন আপ
+              </Link>
+            </>
+          )}
         </div>
       </div>
 
@@ -224,19 +293,19 @@ export default function Navbar({ categories = defaultCategories }: NavbarProps) 
                   key={`${product.id}-${index}`}
                   href={product.slug ? `/product/${encodeURIComponent(product.slug)}` : "/"}
                   className="flex shrink-0 items-center gap-2 px-4 text-xs font-semibold text-[#26352a] transition hover:text-[#078542] sm:px-5 sm:text-sm"
-                  aria-label={`${product.name}, প্রতি ${product.unit} ${bnNumber(product.price)} টাকা`}
+                  aria-label={`${product.name}, প্রতি ${product.unit} ${formatBengaliNumber(product.price)} টাকা`}
                 >
                   <span>{product.emoji}</span>
                   <span className="whitespace-nowrap">{product.name}</span>
                   <span className="whitespace-nowrap font-extrabold">
-                    ৳{bnNumber(product.price)}/{product.unit}
+                    {formatBengaliPrice(product.price, product.unit)}
                   </span>
                   <span
                     className={`whitespace-nowrap text-[11px] font-bold ${
                       product.change > 0
-                        ? "text-red-600"
+                        ? "text-green-700"
                         : product.change < 0
-                          ? "text-green-700"
+                          ? "text-red-600"
                           : "text-gray-500"
                     }`}
                   >
@@ -245,7 +314,7 @@ export default function Navbar({ categories = defaultCategories }: NavbarProps) 
                       : product.change < 0
                         ? "▼ "
                         : "● "}
-                    {bnNumber(Math.abs(product.change))}%
+                    {formatBengaliPercentage(Math.abs(product.change))}
                   </span>
                   <span className="ml-2 text-[#c7d8ca]">•</span>
                 </Link>

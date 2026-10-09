@@ -1,13 +1,13 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import Footer from "@/components/Footer";
 import ProductSection, {
   ProductGrid,
 } from "@/components/ProductSection";
 import type { Product } from "@/components/ProductCard";
+import { formatBengaliNumber } from "@/lib/formatters";
 
 const API_URLS = [
   "https://api.api-store.workers.dev/api/bazardor/products",
@@ -16,13 +16,20 @@ const API_URLS = [
 
 const CATEGORY_EMOJI: Record<string, string> = {
   chal: "🍚",
+  rice: "🍚",
   dal: "🫘",
-  tel: "🫙",
-  sobji: "🥔",
+  tel: "🫗",
+  oil: "🫗",
+  sobji: "🥦",
+  vegetables: "🥦",
   mach: "🐟",
-  mangsho: "🍗",
+  fish: "🐟",
+  mangsho: "🍖",
+  meat: "🍖",
   "dim-dui": "🥚",
+  egg: "🥚",
   mosla: "🌶️",
+  spices: "🌶️",
 };
 
 const UNIT_LABELS: Record<string, string> = {
@@ -38,12 +45,6 @@ const UNIT_LABELS: Record<string, string> = {
   gram: "গ্রাম",
   g: "গ্রাম",
 };
-
-function formatPrice(value: number): string {
-  return new Intl.NumberFormat("bn-BD", {
-    maximumFractionDigits: 2,
-  }).format(value);
-}
 
 function getList(payload: unknown): any[] {
   if (Array.isArray(payload)) return payload;
@@ -74,7 +75,7 @@ function getEmoji(item: any, category: string): string {
   if (name.includes("দুধ")) return "🥛";
   if (name.includes("মাছ")) return "🐟";
   if (name.includes("মুরগি") || name.includes("মাংস")) return "🍗";
-  if (name.includes("তেল")) return "🫙";
+  if (name.includes("তেল")) return "🫗";
 
   return String(
     item?.image ||
@@ -86,7 +87,9 @@ function getEmoji(item: any, category: string): string {
 
 function normalizeProduct(item: any, index: number): Product {
   const category = String(item?.category ?? "").toLowerCase();
-  const name = String(item?.nameBn ?? item?.name ?? "নাম পাওয়া যায়নি");
+  const name = String(
+    item?.nameBn ?? item?.name ?? "নাম পাওয়া যায়নি"
+  );
   const slug = String(item?.slug ?? item?.id ?? `product-${index + 1}`);
   const rawUnit = String(item?.unit ?? "kg").toLowerCase();
 
@@ -208,12 +211,15 @@ export default function HomePage() {
             </section>
           </>
         ) : error ? (
-          <div className="rounded-xl border border-[#e2ebe4] bg-white p-6 text-sm text-gray-600">
-            {error}
+          <div
+            role="alert"
+            className="rounded-xl border border-[#e2ebe4] bg-white p-6 text-sm text-gray-600"
+          >
+            <p>{error}</p>
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="ml-3 font-bold text-[#078542] underline"
+              className="mt-3 font-bold text-[#078542] underline"
             >
               আবার চেষ্টা করুন
             </button>
@@ -232,13 +238,13 @@ export default function HomePage() {
               tone="down"
             />
 
-            <section id="all-products" className="scroll-mt-36">
+            <section id="সব-পণ্য" className="scroll-mt-36">
               <h2 className="text-lg font-extrabold text-[#26352a]">
                 সব পণ্য
               </h2>
 
               <p className="mb-4 mt-1 text-xs text-gray-500">
-                মোট {formatPrice(products.length)}টি পণ্যের বাজারদর দেখুন
+                মোট {formatBengaliNumber(products.length)}টি পণ্যের বাজারদর দেখুন
               </p>
 
               <ProductGrid products={products} />
@@ -246,8 +252,6 @@ export default function HomePage() {
           </>
         )}
       </div>
-
-      <Footer />
     </main>
   );
 }

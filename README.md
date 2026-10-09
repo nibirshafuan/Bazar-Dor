@@ -1,49 +1,47 @@
-﻿# 🛒 BazarDor — বাজার দর
+﻿# BazarDor — বাজার দর
 
-BazarDor is a Bengali-language market price website that helps users explore everyday essential products and compare their prices. It provides product categories, price sorting, market-wise price information, and an easy-to-use responsive interface.
+BazarDor is a responsive web application that helps users explore essential products, compare prices, and view market price changes in one place.
 
-## ✨ Features
+## Technologies Used
 
-- **Responsive UI:** Browse the website on mobile, tablet, and desktop.
-- **Product Categories:** Explore rice, lentils, oil, vegetables, fish, meat, eggs and dairy, and spices.
-- **Product Cards:** View product names, emojis, prices, units, and price changes.
-- **Animated Price Ticker:** See continuously scrolling market prices in the navigation bar.
-- **Category Price Sorting:** Sort products by default order, lowest price, or highest price.
-- **Product Details:** View current prices, price history, and market-wise minimum and maximum prices.
-- **Bengali Interface:** User-facing content and price formatting are designed for Bengali-speaking users.
-- **Custom 404 Page:** A Bengali error page helps users return to the homepage when a route does not exist.
-- **Invalid Route Handling:** Server-side validation returns 404 responses for invalid product and category slugs when the API is available.
-- **Authentication Setup:** Better Auth is configured for email and password authentication; authentication flows still require final verification.
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+- Better Auth
+- MongoDB
+- Sonner Toast Notifications
 
-## 🧰 Technology Stack
+## Features
 
-- Next.js 16 — React framework and App Router
-- React — UI components
-- TypeScript — Type-safe development
-- Tailwind CSS — Styling and responsive layouts
-- Better Auth — Authentication
-- MongoDB — Authentication database
-- External BazarDor API — Product, category, and market price data
+1. **Responsive Design:** Browse the application on mobile, tablet, and desktop.
+2. **Product Listings:** Explore available products and their prices.
+3. **Price Trends:** View products with rising and falling prices.
+4. **Category Browsing:** Browse products by category and sort prices.
+5. **Product Details:** View product information and market price summaries.
+6. **Authentication:** Sign-in and sign-up functionality.
+7. **User Profile:** View account information and update your name.
+8. **Loading States:** Display loading skeletons while content is loading.
+9. **Custom Not Found Page:** Show a friendly page for unavailable routes.
+10. **Notifications:** Display success and error messages for supported actions.
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
-- Node.js and npm
-- A MongoDB database for authentication
-- Access to the required environment variables
+- Node.js
+- npm
+- A configured MongoDB connection for authentication features
 
 ### Installation
 
-Clone the repository and move into the project directory:
-
 ```bash
-git clone <your-github-repository-url>
-cd bazardor
 npm install
 ```
 
-Create a `.env.local` file in the project root and configure these variables with your own values:
+### Environment Variables
+
+Configure the environment variables required by the application in `.env.local`. Do not commit secret values.
 
 ```env
 BETTER_AUTH_URL=http://localhost:3000
@@ -52,7 +50,7 @@ BETTER_AUTH_SECRET=your-secret-value
 MONGODB_URL=your-mongodb-connection-string
 ```
 
-Do not commit `.env.local` or expose secret values in your repository.
+Use valid values for your own environment.
 
 ### Run the Development Server
 
@@ -62,62 +60,16 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Create a Production Build
+### Production Build
 
 ```bash
 npm run build
 ```
 
-To run the production build locally:
+## Project Purpose
 
-```bash
-npm run start
-```
+BazarDor aims to make essential market-price information easier to explore through product listings, categories, price trends, and individual product details.
 
-## 📁 Project Structure
+## Disclaimer
 
-```text
-src/
-├── app/
-│   ├── api/auth/[...all]/
-│   ├── category/[slug]/
-│   ├── product/[slug]/
-│   ├── signin/
-│   ├── signup/
-│   ├── not-found.tsx
-│   ├── layout.tsx
-│   ├── page.tsx
-│   └── globals.css
-├── components/
-│   ├── Hero.tsx
-│   ├── Navbar.tsx
-│   ├── ProductCard.tsx
-│   └── ProductSection.tsx
-└── lib/
-    ├── auth-client.ts
-    └── auth.ts
-```
-
-## 📊 Market Price Information
-
-Product and market information is loaded from the configured BazarDor API endpoints. Prices may vary by location, product quality, and market conditions. Displayed information should be treated as indicative market data.
-
-## 🔐 Authentication
-
-The project uses Better Auth with MongoDB and email/password authentication configuration. Authentication, protected routes, and any additional social login providers should be verified before production deployment.
-
-## 🌐 Deployment
-
-The application can be deployed to a platform that supports Next.js, such as [Vercel](https://vercel.com/).
-
-Before deployment:
-
-1. Configure the required environment variables in the hosting platform.
-2. Verify the production build.
-3. Test product and category routes, including invalid URLs.
-4. Verify authentication and protected routes.
-5. Confirm that external API requests work in the deployed environment.
-
-## 📄 License
-
-Add the license information applicable to this project.
+Displayed prices are indicative and may change depending on market conditions.

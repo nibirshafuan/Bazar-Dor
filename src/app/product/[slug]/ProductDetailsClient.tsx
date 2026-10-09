@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import Navbar from "@/components/Navbar";
 import { authClient } from "@/lib/auth-client";
+import { formatBengaliNumber } from "@/lib/formatters";
 
 const API_BASES = [
   "https://api.api-store.workers.dev/api/bazardor",
@@ -542,15 +543,6 @@ function ProductDetailsContent() {
           </>
         ) : null}
       </main>
-
-      <footer className="mt-12 border-t border-[#e1eae2] bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-6 text-center text-sm text-gray-500 sm:px-6">
-          <p className="font-bold text-[#078542]">🛒 বাজার দর</p>
-          <p className="mt-2">
-            সকল দাম সম্ভাব্য; বাজার অবস্থার ওপর নির্ভর করে পরিবর্তিত হয়।
-          </p>
-        </div>
-      </footer>
     </div>
   );
 }
@@ -566,3 +558,4 @@ export default function ProductDetailsPage() {
     </Suspense>
   );
 }
+

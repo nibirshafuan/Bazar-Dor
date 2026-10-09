@@ -1,4 +1,4 @@
-
+﻿
 "use client";
 
 import { useState } from "react";
@@ -32,7 +32,7 @@ export default function LoginPage() {
       );
 
       if (error) {
-        setError(error.message);
+        setError(error.message ?? "Sign in failed. Please try again.");
         return;
       }
 
@@ -50,7 +50,7 @@ export default function LoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-gray-950 px-4 py-12 text-white">
       <div className="w-full max-w-md rounded-2xl border border-gray-800 bg-gray-900 p-8 shadow-xl">
         <Link href="/" className="font-semibold text-emerald-400">
-          ← BazarDor
+          â† BazarDor
         </Link>
 
         <h1 className="mt-6 text-3xl font-bold">Welcome Back</h1>
@@ -116,3 +116,4 @@ export default function LoginPage() {
     </main>
   );
 }
+

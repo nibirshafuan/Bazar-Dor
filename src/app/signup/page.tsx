@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -35,33 +36,28 @@ export default function SignupPage() {
     setLoading(true);
 
     try {
-      const { data, error } = await authClient.signUp.email(
-        {
-          name: name.trim(),
-          email: email.trim(),
-          password,
-          callbackURL: "/",
-        },
-        {
-          onError: (ctx) => {
-            setError(ctx.error.message);
-          },
-        }
-      );
+      const { error: signupError } = await authClient.signUp.email({
+        name: name.trim(),
+        email: email.trim(),
+        password,
+        callbackURL: "/",
+      });
 
-      if (error) {
-        const message = error.message || "অ্যাকাউন্ট তৈরি করা যায়নি। আবার চেষ্টা করুন।";
+      if (signupError) {
+        const message =
+          signupError.message ||
+          "অ্যাকাউন্ট তৈরি করা যায়নি। আবার চেষ্টা করুন।";
+
         setError(message);
         toast.error(message);
         return;
       }
 
-      if (data) {
-        toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে");
-        window.setTimeout(() => {
-          window.location.href = "/";
-        }, 700);
-      }
+      toast.success("অ্যাকাউন্ট সফলভাবে তৈরি হয়েছে");
+
+      window.setTimeout(() => {
+        window.location.href = "/";
+      }, 700);
     } catch {
       const message = "অ্যাকাউন্ট তৈরি করা যায়নি। আবার চেষ্টা করুন।";
       setError(message);
@@ -89,7 +85,10 @@ export default function SignupPage() {
           <div className="rounded-xl border border-[#e2ebe4] bg-[#fbfdfb] p-3 shadow-sm sm:p-3">
             <form onSubmit={handleSignup} className="space-y-1">
               <div>
-                <label htmlFor="signup-name" className="mb-1 block text-[10px] font-semibold text-[#26352a]">
+                <label
+                  htmlFor="signup-name"
+                  className="mb-1 block text-[10px] font-semibold text-[#26352a]"
+                >
                   নাম
                 </label>
                 <input
@@ -105,7 +104,10 @@ export default function SignupPage() {
               </div>
 
               <div>
-                <label htmlFor="signup-email" className="mb-1 block text-[10px] font-semibold text-[#26352a]">
+                <label
+                  htmlFor="signup-email"
+                  className="mb-1 block text-[10px] font-semibold text-[#26352a]"
+                >
                   ইমেইল
                 </label>
                 <input
@@ -121,7 +123,10 @@ export default function SignupPage() {
               </div>
 
               <div>
-                <label htmlFor="signup-password" className="mb-1 block text-[10px] font-semibold text-[#26352a]">
+                <label
+                  htmlFor="signup-password"
+                  className="mb-1 block text-[10px] font-semibold text-[#26352a]"
+                >
                   পাসওয়ার্ড
                 </label>
                 <input
@@ -138,7 +143,10 @@ export default function SignupPage() {
               </div>
 
               <div>
-                <label htmlFor="signup-confirm-password" className="mb-1 block text-[10px] font-semibold text-[#26352a]">
+                <label
+                  htmlFor="signup-confirm-password"
+                  className="mb-1 block text-[10px] font-semibold text-[#26352a]"
+                >
                   পাসওয়ার্ড নিশ্চিত করুন
                 </label>
                 <input
@@ -155,7 +163,10 @@ export default function SignupPage() {
               </div>
 
               {error && (
-                <p role="alert" className="rounded-md bg-red-50 px-3 py-2 text-xs text-red-700">
+                <p
+                  role="alert"
+                  className="rounded-md bg-red-50 px-3 py-2 text-xs text-red-700"
+                >
                   {error}
                 </p>
               )}
@@ -165,7 +176,9 @@ export default function SignupPage() {
                 disabled={loading}
                 className="w-full rounded-md bg-[#078542] px-3 py-2 text-[11px] font-bold text-white shadow-sm transition hover:bg-[#066e37] disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {loading ? "অ্যাকাউন্ট তৈরি হচ্ছে..." : "অ্যাকাউন্ট তৈরি করুন"}
+                {loading
+                  ? "অ্যাকাউন্ট তৈরি হচ্ছে..."
+                  : "অ্যাকাউন্ট তৈরি করুন"}
               </button>
             </form>
 
@@ -178,7 +191,11 @@ export default function SignupPage() {
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
               <button
                 type="button"
-                onClick={() => toast.info("Google sign-up পরবর্তী authentication ধাপে চালু করা হবে।")}
+                onClick={() =>
+                  toast.info(
+                    "Google sign-up পরবর্তী authentication ধাপে চালু করা হবে।"
+                  )
+                }
                 className="flex items-center justify-center gap-2 rounded-md border border-[#e2ebe4] bg-white px-2 py-2 text-[10px] font-semibold text-[#26352a] transition hover:bg-[#f0f5f0]"
               >
                 <span className="font-extrabold text-blue-600">G</span>
@@ -187,10 +204,18 @@ export default function SignupPage() {
 
               <button
                 type="button"
-                onClick={() => toast.info("GitHub sign-up পরবর্তী authentication ধাপে চালু করা হবে।")}
+                onClick={() =>
+                  toast.info(
+                    "GitHub sign-up পরবর্তী authentication ধাপে চালু করা হবে।"
+                  )
+                }
                 className="flex items-center justify-center gap-2 rounded-md border border-[#e2ebe4] bg-white px-2 py-2 text-[10px] font-semibold text-[#26352a] transition hover:bg-[#f0f5f0]"
               >
-                <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4 fill-current">
+                <svg
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                  className="h-4 w-4 fill-current"
+                >
                   <path d="M12 .9a11.1 11.1 0 0 0-3.51 21.63c.55.1.76-.24.76-.54v-2.1c-3.1.67-3.76-1.32-3.76-1.32-.5-1.28-1.23-1.62-1.23-1.62-1.01-.69.08-.68.08-.68 1.12.08 1.71 1.15 1.71 1.15.99 1.7 2.6 1.21 3.23.93.1-.72.39-1.21.7-1.49-2.48-.28-5.09-1.24-5.09-5.51 0-1.22.44-2.22 1.15-3-.12-.28-.5-1.42.11-2.96 0 0 .94-.3 3.06 1.14a10.63 10.63 0 0 1 5.57 0c2.12-1.44 3.06-1.14 3.06-1.14.61 1.54.23 2.68.11 2.96.72.78 1.15 1.78 1.15 3 0 4.28-2.62 5.22-5.11 5.5.4.35.75 1.02.75 2.06v3.08c0 .3.2.65.77.54A11.1 11.1 0 0 0 12 .9Z" />
                 </svg>
                 GitHub দিয়ে সাইন আপ
@@ -199,7 +224,10 @@ export default function SignupPage() {
 
             <p className="mt-2 text-center text-[11px] text-gray-500">
               অ্যাকাউন্ট আছে?{" "}
-              <Link href="/signin" className="font-bold text-[#078542] hover:underline">
+              <Link
+                href="/signin"
+                className="font-bold text-[#078542] hover:underline"
+              >
                 সাইন ইন করুন
               </Link>
             </p>

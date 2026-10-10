@@ -129,7 +129,7 @@ export default function Navbar({ categories = defaultCategories }: NavbarProps) 
 
           if (products.length > 0) return;
         } catch {
-          // Try the next API endpoint.
+        
         }
       }
     }

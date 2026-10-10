@@ -1,6 +1,20 @@
-﻿# BazarDor — বাজার দর
+# BazarDor
 
-BazarDor is a responsive web application that helps users explore essential products, compare prices, and view market price changes in one place.
+BazarDor is a web application where users can browse market products, check their prices, and explore different product categories. I built this project as part of my web development assignment using Next.js and other modern web technologies.
+
+**Live Website:** https://bazar-dor-psi-ashy.vercel.app/
+
+## Features
+
+- Browse products from the home page.
+- Check products with rising and falling prices.
+- View product details.
+- Explore products by category and sort them.
+- Create an account and sign in.
+- View and update profile information.
+- Use the website on desktop and mobile devices.
+- Get loading and error messages when needed.
+- Navigate through a custom 404 page.
 
 ## Technologies Used
 
@@ -10,66 +24,48 @@ BazarDor is a responsive web application that helps users explore essential prod
 - Tailwind CSS
 - Better Auth
 - MongoDB
-- Sonner Toast Notifications
+- Vercel
 
-## Features
+## Run Locally
 
-1. **Responsive Design:** Browse the application on mobile, tablet, and desktop.
-2. **Product Listings:** Explore available products and their prices.
-3. **Price Trends:** View products with rising and falling prices.
-4. **Category Browsing:** Browse products by category and sort prices.
-5. **Product Details:** View product information and market price summaries.
-6. **Authentication:** Sign-in and sign-up functionality.
-7. **User Profile:** View account information and update your name.
-8. **Loading States:** Display loading skeletons while content is loading.
-9. **Custom Not Found Page:** Show a friendly page for unavailable routes.
-10. **Notifications:** Display success and error messages for supported actions.
+To run the project on your computer:
 
-## Getting Started
+1. Clone the repository:
 
-### Prerequisites
+   ```bash
+   git clone https://github.com/nibirshafuan/Bazar-Dor.git
+   ```
 
-- Node.js
-- npm
-- A configured MongoDB connection for authentication features
+2. Open the project folder:
 
-### Installation
+   ```bash
+   cd Bazar-Dor
+   ```
 
-```bash
-npm install
-```
+3. Install the packages:
 
-### Environment Variables
+   ```bash
+   npm install
+   ```
 
-Configure the environment variables required by the application in `.env.local`. Do not commit secret values.
+4. Create a `.env` file and add the environment variables required by the project.
 
-```env
-BETTER_AUTH_URL=http://localhost:3000
-NEXT_PUBLIC_BETTER_AUTH_URL=http://localhost:3000
-BETTER_AUTH_SECRET=your-secret-value
-MONGODB_URL=your-mongodb-connection-string
-```
+5. Start the development server:
 
-Use valid values for your own environment.
+   ```bash
+   npm run dev
+   ```
 
-### Run the Development Server
+6. Visit http://localhost:3000 in your browser.
 
-```bash
-npm run dev
-```
+## Deployment
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+The project is deployed on Vercel.
 
-### Production Build
+**Live Link:** https://bazar-dor-psi-ashy.vercel.app/
 
-```bash
-npm run build
-```
+## Author
 
-## Project Purpose
-
-BazarDor aims to make essential market-price information easier to explore through product listings, categories, price trends, and individual product details.
-
-## Disclaimer
-
-Displayed prices are indicative and may change depending on market conditions.
+**Nibir Shafuan**  
+Computer Science and Engineering  
+Daffodil International University
